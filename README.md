@@ -44,6 +44,8 @@ To generate class files for a class named MyClass:
 
 ```bash
 generate_class MyClass
+```
+
 This creates:
 
 MyClass.hpp with the class declaration.
