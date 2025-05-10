@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import subprocess
+
+def create_header(class_name):
+    header_filename = f"{class_name}.hpp"
+    header_guard = f"{class_name.upper()}_HPP"
+
+    header_content = f"""#ifndef {header_guard}
+#define {header_guard}
+
+class {class_name} {{
+public:
+    {class_name}();
+    ~{class_name}();
+
+    {class_name}(const {class_name}& other);
+    {class_name}& operator=(const {class_name}& other);
+
+private:
+    // Add member variables here
+}};
+
+#endif // {header_guard}
+"""
+
+    with open(header_filename, "w") as file:
+        file.write(header_content)
+
+def create_source(class_name):
+    source_filename = f"{class_name}.cpp"
+
+    source_content = (
+        f"#include \"{class_name}.hpp\"\n\n"
+        f"{class_name}::{class_name}() {{\n"
+        f"    // Constructor implementation\n"
+        f"}}\n\n"
+        f"{class_name}::~{class_name}() {{\n"
+        f"    // Destructor implementation\n"
+        f"}}\n\n"
+        f"{class_name}::{class_name}(const {class_name}& other) {{\n"
+        f"    // Copy constructor implementation\n"
+        f"}}\n\n"
+        f"{class_name}& {class_name}::operator=(const {class_name}& other) {{\n"
+        f"    // Copy assignment operator implementation\n"
+        f"    if (this != &other) {{\n"
+        f"        // Perform deep copy\n"
+        f"    }}\n"
+        f"    return *this;\n"
+        f"}}\n"
+    )
+
+    with open(source_filename, "w") as file:
+        file.write(source_content)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: generate_class <ClassName1> <ClassName2> ... [additional_command]")
+        sys.exit(1)
+
+    # Separate class names from any additional commands
+    class_names = []
+    additional_command = []
+
+    for arg in sys.argv[1:]:
+        if arg.startswith("-") or arg.endswith(".cpp") or arg.endswith(".hpp"):
+            additional_command.append(arg)
+        else:
+            class_names.append(arg)
+
+    if not class_names:
+        print("Error: No class names provided.")
+        sys.exit(1)
+
+    # Create files for all class names
+    for class_name in class_names:
+        create_header(class_name)
+        create_source(class_name)
+        print(f"Class '{class_name}' files created successfully.")
+
+    # Execute additional commands if provided
+    if additional_command:
+        try:
+            print(f"Executing command: {' '.join(additional_command)}")
+            subprocess.run(additional_command, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error: {e}")
