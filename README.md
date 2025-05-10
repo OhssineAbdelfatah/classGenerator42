@@ -58,8 +58,9 @@ You can chain additional commands after generating the files. For example, to co
 
 ```bash
 generate_class MyClass g++ -o MyClass MyClass.cpp
-To open the files in an editor (e.g., vim or code):
-``
+```
+
+3. To open the files in an editor (e.g., vim or code):
 
 ```bash
 generate_class MyClass code MyClass.cpp MyClass.hpp
