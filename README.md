@@ -52,7 +52,8 @@ MyClass.hpp with the class declaration.
 
 MyClass.cpp with the class definition.
 
-Chain with Additional Commands
+2. Chain with Additional Commands
+
 You can chain additional commands after generating the files. For example, to compile the class immediately:
 
 ```bash
